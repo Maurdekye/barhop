@@ -1,56 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang = "en">
   <head>
     <title>Simple Click Events</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      grid-template-rows: 80px 200px;
+      grid-gap: 10px;
+      background-color: #2196F3;
+      padding: 10px;
+    }
+    .grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 100%;
+        height: 80%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
-        height: 100%;
-        margin-left: 40%;
+        height: 80%;
+        margin-left: 10%;
         padding: 8;
       }
     </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <div id="map"></div>
+    <div class="container" id="signed_up">
+    <h1>Days registered</h1>
+    <p>Wednesday: </p>
+    <p>"Thursday: "</p>
+    <p>"Friday: "</p>
+    <p>"Saturday: "</p>
+    <p>"Sunday: "</p>
+    </div>
+    <div class="container" id="map">
     <script>
+      var map;
       function initMap() {
-        var myLatlng = {lat: -25.363, lng: 131.044};
+        var myLatlng = {lat: 40.7118, lng: -73.99};
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 5,
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
           center: myLatlng
         });
 
-        var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: 'Click to zoom'
-        });
-
-        map.addListener('center_changed', function() {
-          // 3 seconds after the center of the map has changed, pan back to the
-          // marker.
-          window.setTimeout(function() {
-            map.panTo(marker.getPosition());
-          }, 3000);
-        });
-
-        marker.addListener('click', function() {
-          map.setZoom(8);
-          map.setCenter(marker.getPosition());
-        });
+        var service = new google.maps.places.PlacesService(map);
+        service.nearbySearch({
+                location : myLatlng,
+                radius : 5500,
+                type : [ 'restaurant' ]
+            }, callback);
       }
+
+      function callback(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (var i = 0; i < results.length; i++) {
+                  console.debug("HERE");
+                    createMarker(results[i]);
+                }
+            }
+        }
+
+function createMarker(place) {
+            var placeLoc = place.geometry.location;
+            var marker = new google.maps.Marker({
+                map : map,
+                position : place.geometry.location
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(place.name);
+                infowindow.open(map, this);
+            });
+        }
     </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfhdqv-cPfAoXC7cXzRcftcYaUVkvFAr0&callback=initMap&callback=initMap">
+    <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfhdqv-cPfAoXC7cXzRcftcYaUVkvFAr0&libraries=places"></script>
+    <script async defer -->
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfhdqv-cPfAoXC7cXzRcftcYaUVkvFAr0&libraries=places&callback=initMap&callback=initMap">
     </script>
+    </div>
+    <div class="container">
+  
   </body>
 </html>
+
