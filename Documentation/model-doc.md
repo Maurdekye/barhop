@@ -1,4 +1,4 @@
-##Documentation of the Barhop Model 
+#Documentation of the Barhop Model 
 
     locate_bars(position, radius, limit=50)
     '''
@@ -9,7 +9,7 @@
     returns: list of dictionaries in the form of: 
       [
         {
-        	location: (<longitude>,<latitude>), 
+          location: (<longitude>,<latitude>), 
           id: <bar id>
         }
       ]
