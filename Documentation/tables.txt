@@ -1,0 +1,20 @@
+User:
+userId
+Name
+subscriptionType
+dateRollover (day of month when subscription ends)
+daysRemaining
+
+Reservation:
+restaurantId
+time
+userId
+
+Restaurant:
+restaurantId
+location
+
+RestaurantOwner:
+restaurantId
+ownerId
+Name

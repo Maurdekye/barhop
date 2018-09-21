@@ -1,0 +1,10 @@
+DatabaseHandler:
+GetFromDB
+RemoveFromDB
+UpdateDB
+
+UserHandler:
+SelectRestaurant
+UpdateSubscription
+CreateSubscription
+UpdateDaysRemaining
